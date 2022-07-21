@@ -17,7 +17,7 @@ def input_from_script(a, b, c):
     """
 
     print('Ouput from script\n'.upper())
-    return formulas(a,b,c)
+    return formulas(a, b, c)
 
 def input_by_user(a, b, c):
     """
@@ -25,12 +25,13 @@ def input_by_user(a, b, c):
     """
 
     # Check input
-    check_input = bool(a) == False and bool(b) == False and bool(c) == False
-    if  check_input:
+    check_input_none = a.strip() == '' or b.strip() == '' or c.strip() == ''
+    check_input_str = a.isalpha() or b.isalpha() or c.isalpha()
+    if check_input_none or check_input_str:
         raise ValueError('Please enter a number')
     else:
         print('Ouput from user\n'.upper())
-        return formulas(int(a),int(b),int(c))
+        return formulas(a, b, c)
 
 
 def input_by_file(filename):
@@ -54,9 +55,9 @@ def input_by_file(filename):
                 input_txt[coefisient] = value
                 
 
-        input_a = int(input_txt['a'])
-        input_b = int(input_txt['b'])
-        input_c = int(input_txt['c'])
+        input_a = input_txt['a']
+        input_b = input_txt['b']
+        input_c = input_txt['c']
 
     print('Ouput from file (.txt)\n'.upper())
     return formulas(input_a, input_b, input_c)
@@ -83,9 +84,9 @@ def input_by_json(filename, chosen_data):
             
 
             # Load Data JSON 
-            input_json_a = int(input_json['a'])
-            input_json_b = int(input_json['b'])
-            input_json_c = int(input_json['c'])
+            input_json_a = input_json['a']
+            input_json_b = input_json['b']
+            input_json_c = input_json['c']
 
             print('Ouput from JSON\n'.upper())
             print(f'Chosen data : {chosen_data_json}')
