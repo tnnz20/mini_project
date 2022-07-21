@@ -2,30 +2,51 @@ import re
 import json
 import os
 
-from isort import file
+# Import formula Quadratic Equations
 from quadratic_equations import formulas
 
+def line():
+    """
+    Functions for create line
+    """
+    return print('='*50)
 
-def input_by_user():
-    a = int(input('Masukan Nilai a : '))
-    b = int(input('Masukan Nilai b : '))
-    c = int(input('Masukan Nilai c : '))
+def input_from_script(a, b, c):
+    """
+    Functions for input from script
+    """
 
-    if  a != None and b != None and c != None:
-        return formulas(a,b,c)
+    print('Ouput from script\n'.upper())
+    return formulas(a,b,c)
+
+def input_by_user(a, b, c):
+    """
+    Functions for add input by user
+    """
+
+    # Check input
+    check_input = bool(a) == False and bool(b) == False and bool(c) == False
+    if  check_input:
+        raise ValueError('Please enter a number')
     else:
-        raise ValueError('ERROR')
+        print('Ouput from user\n'.upper())
+        return formulas(int(a),int(b),int(c))
 
 
 def input_by_file(filename):
+    """
+    Functions for add input by file (.txt)
+    """
 
     input_txt = {}
     with open(filename, 'r') as file:
         lines = file.readlines()
         for line in lines:
             pattern = r'(\w)=(-?\d*)'
+            # Find exist data
             match = re.search(pattern, line.strip())
 
+            # Input match data to new dictionary
             if match != None:
                 coefisient = match.group(1)
                 value = match.group(2)
@@ -36,67 +57,72 @@ def input_by_file(filename):
         input_a = int(input_txt['a'])
         input_b = int(input_txt['b'])
         input_c = int(input_txt['c'])
-        formulas(input_a, input_b, input_c)
 
-def input_by_json(filename):
+    print('Ouput from file (.txt)\n'.upper())
+    return formulas(input_a, input_b, input_c)
+
+def input_by_json(filename, chosen_data):
+    """
+    Functions for add input by file (.json)
+    """
 
     input_json = {}
     with open (filename, 'r') as file:
         load_json = json.load(file)
+        length_data = len(load_json['list_data'])
 
-        chose_data = int(input('Masukan nomor data yang ingin dipilih :'.upper()))
+        # Check chosen input
+        if chosen_data != 0 and chosen_data <= length_data:
+            chosen_data -= 1
 
-
-        if chose_data != 0 and chose_data <= len(load_json['list_data']):
-            chose_data -= 1
-            for keys, items in load_json['list_data'][chose_data].items():
+            # Input Data JSON to new Dictionary
+            for keys, items in load_json['list_data'][chosen_data].items():
                 input_json[keys] = items
             
             chosen_data_json = input_json['data']
-            print(f'Data yang dipilih : {chosen_data_json}')
+            
 
+            # Load Data JSON 
             input_json_a = int(input_json['a'])
             input_json_b = int(input_json['b'])
             input_json_c = int(input_json['c'])
-            formulas(input_json_a, input_json_b, input_json_c)
-        elif chose_data == 0:
-            raise ValueError('Out of range lenght'.upper())
+
+            print('Ouput from JSON\n'.upper())
+            print(f'Chosen data : {chosen_data_json}')
+            return formulas(input_json_a, input_json_b, input_json_c)
         else:
             raise ValueError('Out of range lenght'.upper())
             
         
 
+def main():
+    # Set up Path
+    path = os.path.dirname(__file__)        # File dir
+    file_path = 'src/input.txt'             # .txt dir
+    json_path = 'src/input_json.json'       # JSON dir
 
-# Direktory file
-path = os.path.dirname(__file__)
+    # Input value
+    print('Input value from users')
+    a = input('Enter value a: ')
+    b = input('Enter value b: ')
+    c = input('Enter value c: ')
 
-# Output by scripts
-a = 1
-b = 2
-c = 1
-print('='*50)
+    print('\nChose data from JSON data (1-3)')
+    chosen_data = int(input('Enter chosen data: '))
 
-print('OUTPUT FROM SCRIPT\n')
-formulas(a,b,c)
-print('='*50)
+    # Clear screen
+    os.system('cls')
 
+    line()
+    input_from_script(1, 2, 1)
+    line()
+    input_by_user(a, b, c)
+    line()
+    input_by_file(os.path.join(path, file_path))
+    line()
+    input_by_json(os.path.join(path, json_path), chosen_data)
+    line()
 
-# Output by User
-print('='*50)
-print('OUTPUT BY USER\n')
-input_by_user()
-print('='*50)
-
-# Output by file (.txt)]
-print('='*50)
-print('OUTPUT BY File (.txt)\n')
-file_path = 'src/input.txt'
-input_by_file(os.path.join(path, file_path))
-print('='*50)
-
-# Output by json
-print('='*50)
-print('OUTPUT BY JSON\n')
-json_path = 'src/input_json.json'
-input_by_json(os.path.join(path, json_path))
-print('='*50)
+if __name__ == '__main__':
+    os.system('cls')
+    main()
