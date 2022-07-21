@@ -5,7 +5,8 @@ def formulas(a, b, c):
     D = 0, roots are real and equal (coincident)
     D < 0, roots are imaginary and unequal
     """
-    
+    a, b, c = int(a), int(b), int(c)
+
     if a > 0:
         # Calculate discriminant
         d = (b**2) - 4*a*c
