@@ -13,7 +13,7 @@
      2. Python
      3. PHP
      4. Java
-   - Lalu buat programn berikut
+   - Lalu buat program berikut
      1. Input a, b, dan c pada koding, output ke screen.
      2. Input a, b, dan c pada koding, output ke screen.
      3. Input dari file (input dari file.txt) output ke screen.
